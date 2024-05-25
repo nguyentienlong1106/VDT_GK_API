@@ -28,9 +28,22 @@ app.use(bodyParser.json());
 
 const seedDatabase = async () => {
   const filePath = path.join(__dirname, "/api/src/data.json");
-  const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
+  let data;
 
-  // Lưu dữ liệu vào MongoDB
+  // Check if the file exists
+  if (fs.existsSync(filePath)) {
+    data = JSON.parse(fs.readFileSync(filePath, "utf8"));
+  } else {
+    // If the file doesn't exist, create mock data
+    data = [
+      // Insert your mock data here
+      { name: "Jane Doe", sex: "Male", university: "Example University" },
+    ];
+    fs.writeFileSync(filePath, JSON.stringify(data), "utf8");
+    console.log("Mock data.json file created");
+  }
+
+  // Save data to MongoDB
   await Student.insertMany(data);
   console.log("Database seeded with initial data");
 };
