@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  #MongoDB
+  mongo_db:
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+    ports:
+      - "27017:27017"
+
+  app:
+    build: .
+    ports:
+      - 8000:8000
+    environment:
+      APP_NAME: ListVDT
+      PORT: 8000
+      DB_URI: mongodb://mongo_db:27017
+    depends_on:
+      - mongo_db
+
+volumes:
+  mongo_db:
+    driver: local
