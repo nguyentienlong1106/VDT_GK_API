@@ -1,23 +1,19 @@
 name: CI/CD Pipeline
 
 on:
-  pull_request:
+  push: # Trigger on push events
+    branches:
+      - "*" # All branches
+  pull_request: # Trigger on pull request events
     branches:
       - main
-  push:
-    branches:
-      - "*"
 
 jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-          services:
+    services:
       mongodb:
         image: mongo:latest
         ports:
@@ -30,7 +26,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20.11.1'
+          node-version: "20.11.1"
 
       - name: Install dependencies
         run: npm install
@@ -47,6 +43,7 @@ jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' # Only run on the main branch
 
     steps:
       - name: Check out the repo
@@ -61,6 +58,5 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
-          context: .
           push: true
-          tags: tienlong1106/vdt_cicd:latest
+          tags: tienlong1106/git_cicd_api:latest
