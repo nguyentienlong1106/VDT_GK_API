@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const seedDatabase = async () => {
-  const filePath = path.join(__dirname, "/api/src/data.json");
+  const filePath = path.join(__dirname, "./api/src/data.json");
   const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
 
   // Lưu dữ liệu vào MongoDB
