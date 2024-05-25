@@ -44,7 +44,6 @@ const seedDatabase = async () => {
       // Insert your mock data here
       { name: "Jane Doe", sex: "Male", university: "Example University" },
     ];
-    fs.writeFileSync(filePath, JSON.stringify(data), "utf8");
     console.log("Mock data.json file created");
   }
 
