@@ -28,14 +28,11 @@ jobs:
         with:
           node-version: "20.11.1"
 
+      - name: Clear npm cache
+        run: npm cache clean --force
+
       - name: Install dependencies
         run: npm install
-
-      - name: Set up MongoDB Memory Server
-        run: |
-          sudo mkdir -p /data/db
-          sudo chown -R mongodb:mongodb /data/db
-          sudo docker run -d -p 27017:27017 --name mongo mongo:latest
 
       - name: Run tests
         run: npm test
