@@ -1,19 +1,19 @@
 // tests/students.test.js
-import request from "supertest";
-import mongoose from "mongoose";
-import app from "../src/app";
-import config from "../config.js";
-import Student from "../src/models/Student.js";
+const request = require("supertest");
+const mongoose = require("mongoose");
+const app = require("../src/app");
+const config = require("../config");
+const Student = require("../src/models/Student");
 
-const { MongoClient } = require("mongodb");
-let connection;
+// const { MongoClient } = require("mongodb");
+// let connection;
 
 beforeAll(async () => {
-  connection = await MongoClient.connect(config.db_test, {});
+  await mongoose.connect(config.db_uri, {});
 });
 
 afterAll(async () => {
-  await connection.close();
+  // await connection.close();
   await mongoose.connection.close();
 });
 

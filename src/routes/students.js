@@ -1,5 +1,5 @@
-import express from "express";
-import studentsController from "../controllers/Students.Controller.js";
+const express = require("express");
+const studentsController = require("../controllers/Students.Controller");
 const router = express.Router();
 
 // router.get("/", studentsController.index);
@@ -11,4 +11,4 @@ router.get("/:id", studentsController.view);
 router.put("/:id", studentsController.editPost);
 router.delete("/:id", studentsController.deleteStudent);
 
-export default router;
+module.exports = router;

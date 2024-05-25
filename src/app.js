@@ -1,12 +1,12 @@
-import express from "express";
-import studentRoutes from "./routes/students.js";
-import mongoose from "mongoose";
-import config from "../config.js";
-import bodyParser from "body-parser";
-import cors from "cors";
-import fs from "fs";
-import path from "path";
-import Student from "./models/Student.js";
+const path = require("path");
+const fs = require("fs");
+const mongoose = require("mongoose");
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const config = require("../config.js");
+const Student = require("./models/Student.js");
+const route = require("./routes");
 
 const __filename = path.resolve();
 const __dirname = path.dirname(__filename);
@@ -27,16 +27,33 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const seedDatabase = async () => {
-  const filePath = path.join(__dirname, "/api/src/data.json");
-  const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
+  const filePath = path.join(__dirname, "./api/src/data.json");
+  // const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
 
-  // Lưu dữ liệu vào MongoDB
+  // // Lưu dữ liệu vào MongoDB
+  // await Student.insertMany(data);
+  // console.log("Database seeded with initial data");
+  let data;
+
+  // Check if the file exists
+  if (fs.existsSync(filePath)) {
+    data = JSON.parse(fs.readFileSync(filePath, "utf8"));
+  } else {
+    // If the file doesn't exist, create mock data
+    data = [
+      // Insert your mock data here
+      { name: "Jane Doe", sex: "Male", university: "Example University" },
+    ];
+    console.log("Mock data.json file created");
+  }
+
+  // Save data to MongoDB
   await Student.insertMany(data);
   console.log("Database seeded with initial data");
 };
 
-app.use("/students", studentRoutes);
+route(app);
 
-connectToDB();
-seedDatabase();
-export default app;
+connectToDB().then(() => seedDatabase());
+
+module.exports = app;
