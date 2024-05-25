@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const StudentSchema = new mongoose.Schema({
   STT: {
@@ -47,12 +47,12 @@ const StudentSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
   updatedAt: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
 });
 
-export default mongoose.model("Student", StudentSchema);
+module.exports = mongoose.model("Student", StudentSchema);

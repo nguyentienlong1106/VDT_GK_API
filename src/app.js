@@ -1,12 +1,12 @@
-import express from "express";
-import studentRoutes from "./routes/students.js";
-import mongoose from "mongoose";
-import config from "../config.js";
-import bodyParser from "body-parser";
-import cors from "cors";
-import fs from "fs";
-import path from "path";
-import Student from "./models/Student.js";
+const path = require("path");
+const fs = require("fs");
+const mongoose = require("mongoose");
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const config = require("../config.js");
+const Student = require("./models/Student.js");
+const route = require("./routes");
 
 const __filename = path.resolve();
 const __dirname = path.dirname(__filename);
@@ -35,8 +35,8 @@ const seedDatabase = async () => {
   console.log("Database seeded with initial data");
 };
 
-app.use("/students", studentRoutes);
+route(app);
 
-connectToDB();
-seedDatabase();
-export default app;
+connectToDB().then(() => seedDatabase());
+
+module.exports = app;
