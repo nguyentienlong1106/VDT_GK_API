@@ -17,18 +17,32 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+          services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "20"
+          node-version: '20.11.1'
 
       - name: Install dependencies
         run: npm install
-        working-directory: .
+
+      - name: Set up MongoDB Memory Server
+        run: |
+          sudo mkdir -p /data/db
+          sudo chown -R mongodb:mongodb /data/db
+          sudo docker run -d -p 27017:27017 --name mongo mongo:latest
 
       - name: Run tests
         run: npm test
-        working-directory: .
 
   push_to_registry:
     name: Push Docker image to Docker Hub
