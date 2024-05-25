@@ -4,27 +4,6 @@ import Student from "../models/Student.js";
  * GET /
  * list
  */
-// export async function list(req, res) {
-//   let perPage = 12;
-//   let page = req.query.page || 1;
-
-//   try {
-//     const students = await Student.aggregate([{ $sort: { createdAt: -1 } }])
-//       .skip(perPage * page - perPage)
-//       .limit(perPage)
-//       .exec();
-//     const count = await Student.countDocuments({});
-
-//     return res.status(200).json({
-//       status: 200,
-//       data: students,
-//       current: page,
-//       pages: Math.ceil(count / perPage),
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
 
 export async function list(req, res) {
   try {
