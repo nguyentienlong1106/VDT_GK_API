@@ -8,8 +8,8 @@ import fs from "fs";
 import path from "path";
 import Student from "./models/Student.js";
 
-// const __filename = path.resolve();
-// const __dirname = path.dirname(__filename);
+const __filename = path.resolve();
+const __dirname = path.dirname(__filename);
 const connectToDB = async () => {
   try {
     await mongoose.connect(config.db_uri, {});
@@ -26,17 +26,17 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// const seedDatabase = async () => {
-//   const filePath = path.join(__dirname, "/api/src/data.json");
-//   const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
+const seedDatabase = async () => {
+  const filePath = path.join(__dirname, "/api/src/data.json");
+  const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
 
-//   // Lưu dữ liệu vào MongoDB
-//   await Student.insertMany(data);
-//   console.log("Database seeded with initial data");
-// };
+  // Lưu dữ liệu vào MongoDB
+  await Student.insertMany(data);
+  console.log("Database seeded with initial data");
+};
 
-// app.use("/students", studentRoutes);
+app.use("/students", studentRoutes);
 
 connectToDB();
-// seedDatabase();
+seedDatabase();
 export default app;
