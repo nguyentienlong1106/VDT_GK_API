@@ -8,8 +8,6 @@ const config = require("../config.js");
 const Student = require("./models/Student.js");
 const route = require("./routes");
 
-const __filename = path.resolve();
-const __dirname = path.dirname(__filename);
 const connectToDB = async () => {
   try {
     await mongoose.connect(config.db_uri, {});
@@ -28,11 +26,6 @@ app.use(bodyParser.json());
 
 const seedDatabase = async () => {
   const filePath = path.join(__dirname, "./api/src/data.json");
-  // const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
-
-  // // Lưu dữ liệu vào MongoDB
-  // await Student.insertMany(data);
-  // console.log("Database seeded with initial data");
   let data;
 
   // Check if the file exists
@@ -44,7 +37,6 @@ const seedDatabase = async () => {
       // Insert your mock data here
       { name: "Jane Doe", sex: "Male", university: "Example University" },
     ];
-    console.log("Mock data.json file created");
   }
 
   // Save data to MongoDB
