@@ -23,6 +23,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Use .env file
+        run: echo "$ENV_API" > .env
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
