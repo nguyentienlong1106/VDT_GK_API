@@ -9,7 +9,7 @@ const Student = require("../src/models/Student");
 // let connection;
 
 beforeAll(async () => {
-  await mongoose.connect(config.db_uri_test, {});
+  await mongoose.connect(config.db_uri, {});
 });
 
 afterAll(async () => {
