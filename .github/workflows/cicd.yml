@@ -55,7 +55,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Use .env file
-        run: echo "${{ secrets.ENV_BUILD }}" > .env
+        run: printf "%s\n" "${{ secrets.ENV_BUILD }}" > .env
         if: steps.test.outputs.delete-env-file == 'success' # Run this step only if the delete-env-file step succeeded
 
       - name: List files
