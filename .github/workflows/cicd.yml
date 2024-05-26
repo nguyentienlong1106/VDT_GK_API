@@ -26,6 +26,11 @@ jobs:
       - name: Use .env file
         run: echo "$ENV_API" > .env
 
+      - name: Print .env file content
+        run: cat .env
+        env:
+          ENV_FILE: ${{ secrets.ENV_FILE }}
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
