@@ -56,7 +56,7 @@ const editPost = async (req, res) => {
       country: req.body.country,
       updatedAt: Date.now(),
     });
-    return res.json();
+    return res.json({ message: "Học sinh đã được cập nhật thành công." });
   } catch (error) {
     console.log(error);
   }
@@ -69,7 +69,7 @@ const editPost = async (req, res) => {
 const deleteStudent = async (req, res) => {
   try {
     await Student.findByIdAndDelete({ _id: req.params.id });
-    return res.json();
+    return res.json({ message: "Học sinh đã được xóa thành công." });
   } catch (error) {
     console.log(error);
   }
