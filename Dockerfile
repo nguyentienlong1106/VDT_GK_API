@@ -1,15 +1,9 @@
-FROM node:latest AS builder
-WORKDIR /app
-COPY package.json package-lock.json ./
+FROM node:alpine
+WORKDIR /usr/src/app
+COPY ./package.json ./
+COPY ./package-lock.json ./
 RUN npm install
-COPY . .
-RUN npm run build
-
-FROM node:latest
-WORKDIR /app
-
-COPY --from=builder /app .
-
-EXPOSE 8000
-
+COPY ./src ./src
+COPY ./.env ./
+COPY ./config.js ./
 CMD ["npm", "start"]
