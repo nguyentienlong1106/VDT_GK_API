@@ -35,7 +35,48 @@ const seedDatabase = async () => {
     // If the file doesn't exist, create mock data
     data = [
       // Insert your mock data here
-      { name: "Jane Doe", sex: "Male", university: "Example University" },
+      {
+        name: "Lê Minh Việt Anh",
+        email: "anh.lmv.bkhn@gmail.com",
+        phone: "0394305264",
+        sex: "Nam",
+        university: "Đại học Bách Khoa Hà Nội",
+        country: "Việt Nam",
+      },
+      {
+        name: "Phạm Quang Bách",
+        email: "blu11235@gmail.com",
+        phone: "0866859929",
+        sex: "Nam",
+        university: "VinUniversity",
+        country: "Việt Nam",
+      },
+      {
+        name: "Hoàng Bá Bảo",
+        year: 2004,
+        email: "bachdtm169@gmail.com",
+        phone: "0983155487",
+        sex: "Nam",
+        university: "Đại học Bách Khoa Hà Nội",
+        country: "Việt Nam",
+      },
+      {
+        name: "Phạm Minh Cường",
+        email: "20020098@vnu.edu.vn",
+        phone: "0967809494",
+        sex: "Nam",
+        university: "Đại học Công nghệ - Đại học country Hà Nội",
+        country: "Việt Nam",
+      },
+      {
+        name: "Trương Văn Độ",
+        year: 2002,
+        email: "truongvando1910@gmail.com",
+        phone: "0963047046",
+        sex: "Nam",
+        university: "Đại học Công nghệ - Đại học country Hà Nội",
+        country: "Việt Nam",
+      },
     ];
   }
 
