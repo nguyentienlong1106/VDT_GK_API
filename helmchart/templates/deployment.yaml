@@ -1,0 +1,28 @@
+# backend/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-api
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-api
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-api
+    spec:
+      containers:
+        - name: api
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          ports:
+            - containerPort: 8000
+          env:
+            - name: APP_NAME
+              value: {{ .Values.env.APP_NAME }}
+            - name: PORT
+              value: {{ .Values.env.PORT }}
+            - name: DB_URI
+              value: {{ .Values.env.DB_URI }}
