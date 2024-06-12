@@ -4,9 +4,9 @@ on:
   push: # Trigger on push events
     branches:
       - "*" # All branches
-  pull_request: # Trigger on pull request events
-    branches:
-      - main
+  push:
+    tag:
+      - "*"
 
 jobs:
   test:
@@ -40,8 +40,9 @@ jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' # Only run on the main branch
-
+    if: startsWith(github.ref, 'refs/tags/') # Only run on the main branch
+    outputs:
+      tag_name: ${{ steps.extract_tag.outputs.tag_name }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -52,9 +53,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
-      - name: Extract version from commit SHA
-        id: vars
-        run: echo "VERSION=${GITHUB_SHA::7}" >> $GITHUB_ENV
+      - name: Extract tag name
+        id: extract_tag
+        run: echo "tag_name=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
@@ -62,5 +63,29 @@ jobs:
           context: .
           push: true
           tags: |
-            tienlong1106/git_cicd_api:${{ env.VERSION }}
-            tienlong1106/git_cicd_api:latest
+            tienlong1106/git_cicd_api:${{ steps.extract_tag.outputs.tag_name }}
+
+  update_config_repo:
+    name: Update Config Repo with New Image Version
+    runs-on: ubuntu-latest
+    needs: push_to_registry # Ensure this job runs after push_to_registry
+
+    steps:
+      - name: Checkout config repo
+        uses: actions/checkout@v2
+        with:
+          repository: nguyentienlong1106/VDT_Config_web
+          ref: "main"
+          token: ${{ secrets.G_TOKEN }}
+
+      - name: Update image tag in values.yaml
+        run: |
+          sed -i 's/^  *tag:.*/^  tag: ${{ needs.push_to_registry.outputs.tag_name }}/g' values.yaml
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "nguyentienlong1106"
+          git config --global user.email "tienlong1106@gmail.com"
+          git add values.yaml
+          git commit -m "Update image tag to ${{ needs.push_to_registry.outputs.tag_name }}"
+          git push
