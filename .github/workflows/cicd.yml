@@ -73,7 +73,7 @@ jobs:
               with:
                   repository: nguyentienlong1106/VDT_Config_api
                   ref: "main"
-                  token: ${{ secrets.G_TOKEN }}
+                  token: ${{ secrets.G }}
 
             - name: Update image tag in values.yaml
               run: |
